@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #ffd700;
+    --secondary-color: #4a90e2;
+    --background-color: #1a1a1a;
+    --text-color: #ffffff;
+    --card-background: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: linear-gradient(135deg, var(--background-color) 0%, #333333 100%);
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("images/image1.png");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    transition: opacity 0.5s ease-out;
+    z-index: -1;
+}
+
+.background-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+header {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+header:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.logo:hover {
+    color: var(--secondary-color);
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+nav ul li a i {
+    margin-right: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+nav ul li a {
+    position: relative;
+    overflow: hidden;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    transform: scaleX(1);
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+nav ul li a:hover i {
+    transform: scale(1.2);
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-color);
+    padding: 0 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.certifications {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.certifications h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.certifications ul {
+    list-style-type: none;
+}
+
+.certifications li {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.certifications li i {
+    color: var(--primary-color);
+    margin-right: 0.8rem;
+}
+
+.glass-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 3rem;
+    margin: 6rem auto;
+    max-width: 1200px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+}
+
+.glass-container p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.program-cards {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 15px;
+    padding: 2rem;
+    width: calc(33.333% - 1.5rem);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: var(--text-color);
+    display: block;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.card p {
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--text-color);
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .program-cards {
+        flex-direction: column;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    nav ul {
+        display: none;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+
+    .glass-container {
+        padding: 2rem;
+        margin: 4rem auto;
+    }
+}
+
+@keyframes fadeOutBackground {
+    from {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.hide-background {
+    animation: fadeOutBackground 0.5s ease-out forwards;
+}

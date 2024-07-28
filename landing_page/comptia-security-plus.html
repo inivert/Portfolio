@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Exam Help</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+        body {
+            padding-top: 80px; /* Add padding to body instead of main */
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .question-container {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+        }
+        .question-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+        .question-container.fade-out {
+            opacity: 0;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .option:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .option.correct {
+            background-color: rgba(0, 255, 0, 0.2);
+        }
+        .option.incorrect {
+            background-color: rgba(255, 0, 0, 0.2);
+        }
+        .explanation {
+            margin-top: 10px;
+            font-style: italic;
+            display: none;
+        }
+        .explanation.visible {
+            display: block;
+        }
+        .next-question {
+            display: none;
+            background-color: #ffd700;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            float: right;
+            margin-top: 10px;
+        }
+        .next-question:hover {
+            background-color: #ffed4a;
+        }
+        .generate-new-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ffd700;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .generate-new-button:hover {
+            background-color: #ffed4a;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        .logo {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .footer-nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        .footer-nav a:hover {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image"></div>
+    <div class="content-wrapper">
+        <header style="z-index: 1001;">
+            <nav>
+                <a href="index.html" class="logo">Cyberhub</a>
+                <ul>
+                    <li><a href="index.html#about"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="index.html#programs"><i class="fas fa-laptop-code"></i> Programs</a></li>
+                    <li><a href="https://github.com/inivert" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="glass-container">
+                <h1>CompTIA Security+ Exam Help</h1>
+                <p>Practice with 15 random multiple-choice questions to prepare for your CompTIA Security+ exam.</p>
+                <div id="quiz-container"></div>
+                <button id="generate-new-button" class="generate-new-button">Generate New Questions</button>
+                <div id="popup" class="popup">
+                    <p>New questions have been generated!</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 inivert. All rights reserved.</p>
+                <nav class="footer-nav">
+                    <a href="index.html#about">About</a>
+                    <a href="https://github.com/inivert" target="_blank">GitHub</a>
+                </nav>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const quizContainer = document.getElementById('quiz-container');
+        const generateNewButton = document.getElementById('generate-new-button');
+        const popup = document.getElementById('popup');
+
+        const easyQuestions = [
+            {
+                question: "Which of the following is a type of social engineering attack?",
+                options: ["Phishing", "Encryption", "Firewall", "Load balancing"],
+                correctAnswer: 0,
+                explanations: [
+                    "Correct! Phishing is a type of social engineering attack that attempts to trick users into revealing sensitive information.",
+                    "Incorrect. Encryption is a method of protecting data, not a social engineering attack.",
+                    "Incorrect. A firewall is a network security device, not a social engineering attack.",
+                    "Incorrect. Load balancing is a technique to distribute network traffic, not a social engineering attack."
+                ]
+            },
+            {
+                question: "What is the primary purpose of a firewall?",
+                options: ["Encrypt data", "Monitor network traffic", "Scan for viruses", "Create backups"],
+                correctAnswer: 1,
+                explanations: [
+                    "Incorrect. Firewalls don't typically encrypt data; that's the job of encryption software.",
+                    "Correct! The primary purpose of a firewall is to monitor and control incoming and outgoing network traffic based on predetermined security rules.",
+                    "Incorrect. While some advanced firewalls may have antivirus capabilities, it's not their primary purpose.",
+                    "Incorrect. Creating backups is a separate process, typically handled by backup software or services."
+                ]
+            },
+            {
+                question: "What does VPN stand for?",
+                options: ["Virtual Private Network", "Very Powerful Network", "Visual Processing Node", "Verified Public Network"],
+                correctAnswer: 0,
+                explanations: [
+                    "Correct! VPN stands for Virtual Private Network, which provides a secure, encrypted connection over a less secure network.",
+                    "Incorrect. 'Very Powerful Network' is not a standard term in networking.",
+                    "Incorrect. 'Visual Processing Node' is not related to VPNs or networking.",
+                    "Incorrect. 'Verified Public Network' is not what VPN stands for, and it contradicts the 'private' nature of VPNs."
+                ]
+            },
+            {
+                question: "Which of the following is NOT a common type of malware?",
+                options: ["Virus", "Trojan", "Firewall", "Worm"],
+                correctAnswer: 2,
+                explanations: [
+                    "Incorrect. A virus is a type of malware that attaches itself to clean files and spreads throughout a computer system.",
+                    "Incorrect. A Trojan is a type of malware that disguises itself as legitimate software to trick users into installing it.",
+                    "Correct! A firewall is a security system that monitors and controls network traffic, not a type of malware.",
+                    "Incorrect. A worm is a type of malware that replicates itself to spread to other computers."
+                ]
+            },
+            {
+                question: "What is the purpose of two-factor authentication (2FA)?",
+                options: ["To speed up login process", "To provide an additional layer of security", "To encrypt passwords", "To bypass firewalls"],
+                correctAnswer: 1,
+                explanations: [
+                    "Incorrect. 2FA typically adds a step to the login process, not speeds it up.",
+                    "Correct! Two-factor authentication provides an additional layer of security by requiring two different types of identification before granting access.",
+                    "Incorrect. While 2FA enhances security, it doesn't directly encrypt passwords.",
+                    "Incorrect. 2FA is not related to bypassing firewalls; it's about enhancing access security."
+                ]
+            },
+            {
+                question: "What does SSL stand for in the context of web security?",
+                options: ["Secure Socket Layer", "System Security Log", "Server Side Language", "Secure System Link"],
+                correctAnswer: 0,
+                explanations: [
+                    "Correct! SSL stands for Secure Socket Layer, a protocol for establishing authenticated and encrypted links between networked computers.",
+                    "Incorrect. 'System Security Log' is not what SSL stands for in web security.",
+                    "Incorrect. 'Server Side Language' refers to programming languages run on the server, not a security protocol.",
+                    "Incorrect. 'Secure System Link' is not the correct expansion of SSL in this context."
+                ]
+            },
+            {
+                question: "What is phishing primarily used for?",
+                options: ["Stealing sensitive information", "Encrypting data", "Improving network speed", "Blocking malware"],
+                correctAnswer: 0,
+                explanations: [
+                    "Correct! Phishing is primarily used for stealing sensitive information such as login credentials or financial details by tricking users.",
+                    "Incorrect. Phishing is not used for encrypting data; it's a method of deception.",
+                    "Incorrect. Phishing has nothing to do with improving network speed.",
+                    "Incorrect. Phishing is a type of attack, not a defense mechanism against malware."
+                ]
+            }
+        ];
+
+        const hardQuestions = [
+            {
+                question: "Which of the following best describes the concept of 'defense in depth'?",
+                options: [
+                    "Using multiple layers of security controls",
+                    "Focusing all resources on perimeter defense",
+                    "Implementing only one robust security solution",
+                    "Relying solely on encryption for data protection"
+                ],
+                correctAnswer: 0,
+                explanations: [
+                    "Correct! Defense in depth involves using multiple layers of security controls to protect assets, making it harder for attackers to breach the system.",
+                    "Incorrect. Focusing all resources on perimeter defense leaves internal systems vulnerable and doesn't follow the defense in depth principle.",
+                    "Incorrect. Implementing only one robust security solution goes against the concept of defense in depth, which advocates for multiple layers of protection.",
+                    "Incorrect. While encryption is important, relying solely on it doesn't provide comprehensive protection as required by the defense in depth approach."
+                ]
+            },
+            {
+                question: "What is the primary purpose of a SIEM system?",
+                options: [
+                    "To encrypt network traffic",
+                    "To collect and analyze log data from various sources",
+                    "To block all incoming traffic",
+                    "To accelerate data processing"
+                ],
+                correctAnswer: 1,
+                explanations: [
+                    "Incorrect. SIEM systems don't primarily focus on encrypting network traffic.",
+                    "Correct! SIEM (Security Information and Event Management) systems collect and analyze log data from various sources to detect and respond to security threats.",
+                    "Incorrect. Blocking all incoming traffic is not the purpose of a SIEM; that would be more akin to a firewall function.",
+                    "Incorrect. While SIEM systems process data, accelerating data processing is not their primary purpose."
+                ]
+            },
+            {
+                question: "What is the principle of least privilege?",
+                options: [
+                    "Giving users the minimum levels of access they need to perform their job functions",
+                    "Providing all users with administrative access",
+                    "Restricting access to all resources for maximum security",
+                    "Granting privileges based on seniority in the organization"
+                ],
+                correctAnswer: 0,
+                explanations: [
+                    "Correct! The principle of least privilege involves giving users only the minimum levels of access they need to perform their job functions, reducing potential security risks.",
+                    "Incorrect. Providing all users with administrative access goes against the principle of least privilege and increases security risks.",
+                    "Incorrect. While this might seem secure, it's not practical and doesn't align with the principle of least privilege, which allows necessary access.",
+                    "Incorrect. Granting privileges based on seniority doesn't ensure that users only have the access they need for their specific job functions."
+                ]
+            },
+            {
+                question: "What is a man-in-the-middle (MITM) attack?",
+                options: [
+                    "A type of denial-of-service attack",
+                    "An attack where the attacker secretly relays and possibly alters communication between two parties",
+                    "A method of encrypting data during transmission",
+                    "A technique for improving network performance"
+                ],
+                correctAnswer: 1,
+                explanations: [
+                    "Incorrect. A denial-of-service attack aims to make a machine or network resource unavailable, which is different from a MITM attack.",
+                    "Correct! In a man-in-the-middle attack, the attacker secretly intercepts and relays communication between two parties who believe they are directly communicating with each other.",
+                    "Incorrect. While encryption is used to prevent MITM attacks, it's not what a MITM attack is.",
+                    "Incorrect. MITM attacks are not related to improving network performance; they are a security threat."
+                ]
+            },
+            {
+                question: "What is the purpose of a honeypot in cybersecurity?",
+                options: [
+                    "To store sensitive data securely",
+                    "To attract and detect attackers",
+                    "To encrypt network traffic",
+                    "To speed up data processing"
+                ],
+                correctAnswer: 1,
+                explanations: [
+                    "Incorrect. While honeypots may contain data, their primary purpose is not secure storage.",
+                    "Correct! A honeypot is a security mechanism set to detect, deflect, or study attempts at unauthorized use of information systems. It appears to be a legitimate part of the network but is actually isolated and monitored.",
+                    "Incorrect. Honeypots are not primarily used for encrypting network traffic.",
+                    "Incorrect. Honeypots are not designed to speed up data processing; they are a security tool."
+                ]
+            },
+            {
+                question: "What is the main difference between symmetric and asymmetric encryption?",
+                options: [
+                    "Symmetric encryption is faster, asymmetric is more secure",
+                    "Symmetric uses one key, asymmetric uses two keys",
+                    "Symmetric is used for storing data, asymmetric for transmitting",
+                    "Symmetric works on larger files, asymmetric on smaller ones"
+                ],
+                correctAnswer: 1,
+                explanations: [
+                    "Incorrect. While symmetric encryption is generally faster, this is not the main difference, and asymmetric isn't necessarily more secure.",
+                    "Correct! The main difference is that symmetric encryption uses the same key for encryption and decryption, while asymmetric encryption uses a public key for encryption and a private key for decryption.",
+                    "Incorrect. Both types can be used for storing and transmitting data, depending on the specific use case.",
+                    "Incorrect. The size of the file doesn't determine which type of encryption is used, although symmetric encryption is often more efficient for larger amounts of data."
+                ]
+            },
+            {
+                question: "What is the purpose of a DMZ (Demilitarized Zone) in network security?",
+                options: [
+                    "To completely isolate the internal network from the internet",
+                    "To provide a buffer zone between the internal and external networks",
+                    "To speed up data transfer between networks",
+                    "To encrypt all network traffic"
+                ],
+                correctAnswer: 1,
+                explanations: [
+                    "Incorrect. A DMZ doesn't completely isolate the internal network; it provides a controlled interface.",
+                    "Correct! A DMZ is a physical or logical subnetwork that contains and exposes an organization's external-facing services to an untrusted network, usually the internet. It acts as a buffer zone between the internal and external networks.",
+                    "Incorrect. While a DMZ can help manage traffic, its primary purpose is not to speed up data transfer.",
+                    "Incorrect. Encrypting network traffic is not the primary purpose of a DMZ, although encryption may be used within a DMZ."
+                ]
+            },
+            {
+                question: "What is the primary goal of a penetration test?",
+                options: [
+                    "To identify and exploit vulnerabilities in a system",
+                    "To train new security personnel",
+                    "To encrypt sensitive data",
+                    "To monitor network traffic"
+                ],
+                correctAnswer: 0,
+                explanations: [
+                    "Correct! The primary goal of a penetration test is to identify security weaknesses in a system by simulating an attack to exploit vulnerabilities, helping organizations improve their security posture.",
+                    "Incorrect. While penetration tests can provide valuable learning experiences, training personnel is not their primary goal.",
+                    "Incorrect. Penetration tests do not focus on encrypting data; they test the security of systems and networks.",
+                    "Incorrect. While monitoring network traffic might be part of a penetration test, it's not the primary goal."
+                ]
+            }
+        ];
+
+        let currentQuestions = easyQuestions;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        let currentQuestionIndex = 0;
+        let answeredQuestions = 0;
+
+        function displayQuestions() {
+            shuffleArray(easyQuestions);
+            shuffleArray(hardQuestions);
+            currentQuestions = [...easyQuestions.slice(0, 7), ...hardQuestions.slice(0, 8)];
+            shuffleArray(currentQuestions);
+
+            quizContainer.innerHTML = '';
+            displayNextQuestion();
+        }
+
+        function displayNextQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                displayGoodLuckMessage();
+                return;
+            }
+
+            const q = currentQuestions[currentQuestionIndex];
+            const questionElement = document.createElement('div');
+            questionElement.classList.add('question-container');
+            questionElement.innerHTML = `
+                <h3>Question ${currentQuestionIndex + 1}</h3>
+                <p>${q.question}</p>
+                <ul class="options">
+                    ${q.options.map((option, i) => `
+                        <li class="option" data-index="${i}">${option}</li>
+                    `).join('')}
+                </ul>
+                ${q.options.map((option, i) => `
+                    <p class="explanation" data-index="${i}">${q.explanations[i]}</p>
+                `).join('')}
+                <button class="next-question" style="display: none;">Next Question</button>
+            `;
+
+            questionElement.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const selectedIndex = parseInt(option.getAttribute('data-index'));
+                    const explanations = questionElement.querySelectorAll('.explanation');
+                    const nextButton = questionElement.querySelector('.next-question');
+                    
+                    questionElement.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('correct', 'incorrect');
+                    });
+
+                    if (selectedIndex === q.correctAnswer) {
+                        option.classList.add('correct');
+                    } else {
+                        option.classList.add('incorrect');
+                        questionElement.querySelector(`.option[data-index="${q.correctAnswer}"]`).classList.add('correct');
+                    }
+
+                    explanations.forEach(exp => {
+                        if (parseInt(exp.getAttribute('data-index')) === selectedIndex) {
+                            exp.classList.add('visible');
+                        } else {
+                            exp.classList.remove('visible');
+                        }
+                    });
+
+                    nextButton.style.display = 'block';
+                    answeredQuestions++;
+                });
+            });
+
+            questionElement.querySelector('.next-question').addEventListener('click', () => {
+                questionElement.classList.add('fade-out');
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    quizContainer.innerHTML = '';
+                    displayNextQuestion();
+                }, 500); // This should match the transition duration in CSS
+            });
+
+            quizContainer.appendChild(questionElement);
+        }
+
+        function displayGoodLuckMessage() {
+            quizContainer.innerHTML = `
+                <div class="glass-container">
+                    <h2>Congratulations!</h2>
+                    <p>You've completed all 15 questions. Good luck on your CompTIA Security+ exam!</p>
+                    <button id="restart-quiz" class="cta-button">Restart Quiz</button>
+                </div>
+            `;
+
+            document.getElementById('restart-quiz').addEventListener('click', () => {
+                currentQuestionIndex = 0;
+                answeredQuestions = 0;
+                displayQuestions();
+            });
+        }
+
+        generateNewButton.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            answeredQuestions = 0;
+            displayQuestions();
+            showPopup();
+        });
+
+        function showPopup() {
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000); // Hide the popup after 3 seconds
+        }
+
+        displayQuestions();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollToPlugin.min.js"></script>
+    <script src="script.js"></script>
+    <script src="animations.js"></script>
+    <script>
+        // Prevent default behavior for anchor tags with '#' href
+        document.querySelectorAll('a[href="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+            });
+        });
+
+        // Additional animations specific to the CompTIA Security+ page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover animations to options
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.addEventListener('mouseenter', () => {
+                    gsap.to(option, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+                });
+                option.addEventListener('mouseleave', () => {
+                    gsap.to(option, { scale: 1, duration: 0.3, ease: 'power2.out' });
+                });
+            });
+
+            // Animate questions on load
+            gsap.from('.question-container', {
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power2.out'
+            });
+
+            // Add hover animation to generate new button
+            const generateNewButton = document.getElementById('generate-new-button');
+            generateNewButton.addEventListener('mouseenter', () => {
+                gsap.to(generateNewButton, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+            });
+            generateNewButton.addEventListener('mouseleave', () => {
+                gsap.to(generateNewButton, { scale: 1, duration: 0.3, ease: 'power2.out' });
+            });
+        });
+    </script>
+</body>
+</html>

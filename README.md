@@ -2,6 +2,8 @@
 
 Welcome to the Cybersecurity at NEIT project repository! This project showcases a website dedicated to cybersecurity education and resources at New England Institute of Technology.
 
+View full site: https://cyberporfolio.netlify.app
+
 ## Table of Contents
 
 - [Cybersecurity at NEIT](#cybersecurity-at-neit)
